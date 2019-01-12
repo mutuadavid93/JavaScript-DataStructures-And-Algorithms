@@ -1,45 +1,43 @@
-/*************************************
- *
- *  INSERT "Mumbai" into Linked List
- *
- ************************************/
-
+/**
+ * Create our Node Class to Store and Set Values into the Node
+ *  NodeClass: Represents a Linked List's "Node Object".
+ */
 function Node(element) {
   this.element = element;
   this.next = null;
 }
 
+/**
+ *  A LinkedList Class.
+ *  To help Manipulate the Node's Data.
+ */
+// The Only Property stored in a LinkedList class,
+// is a Node to represent the head of a list.
 function LinkedList() {
   this.head = new Node('head');
 }
 
-// We first find the NodeElement we looking for; e.g. item = "head".
+// Insert a new Node after an Existing Node:
+// Search through the List for an Specific "After Node", Find it and return it.
 LinkedList.prototype.find = function(item) {
-  var currNode = this.head; // currNode = {element: "head", next: null}
+  var currNode = this.head;
 
   // Navigate a Linked List:
   while (currNode.element != item) {
-    // currNode = {element: "head", next: {element: "newElement", next: null}}
     currNode = currNode.next;
   }
-  return currNode; // {element: "newElement", next: null}
+  return currNode;
 };
 
 // The actual Insert Function
 LinkedList.prototype.insert = function(newElement, item) {
-  // NB: All newNodes Start with next: null
-  // i.e.
-  // newNode = {element: "newElement", next: null}
   var newNode = new Node(newElement);
-
-  var afterNode = this.find(item); // afterNode = {element: "head", next: null}
+  var afterNode = this.find(item);
 
   // 1. New node’s next property is set to the value of the next property of the “after” node.
-  newNode.next = afterNode.next; // now newNode next: null(The "head" Node next property)
+  newNode.next = afterNode.next;
 
   // 2. Then the “after” node’s next property is set to a reference to the new node.
-  // @Syntax:
-  // afterNode = {element: "head", next: {element: "newElement", next: null}}
   afterNode.next = newNode;
 };
 
@@ -49,11 +47,9 @@ LinkedList.prototype.display = function() {
   while (!(currNode.next == null)) {
     // We access the element property of the node that the current node is pointing to.
     var currNodePointingToNode = currNode.next.element;
-
-    // Do whatever you need here:
     console.log(currNodePointingToNode);
 
-    // Increment: As long as next property isn't null
+    // Increment:
     currNode = currNode.next;
   }
 };
@@ -61,11 +57,7 @@ LinkedList.prototype.display = function() {
 // find Previous Node to change it's next property;
 LinkedList.prototype.findPrevious = function(item) {
   var currNode = this.head;
-
-  // Loop as long as the end of list isn't reached(next == null @listend)
-  // and it's not what We have under item.
   while (!(currNode.next == null) && currNode.next.element != item) {
-    // Grab that element under next property and update currNode Object.
     currNode = currNode.next;
   }
   return currNode;
@@ -74,12 +66,8 @@ LinkedList.prototype.findPrevious = function(item) {
 LinkedList.prototype.remove = function(item) {
   var prevNode = this.findPrevious(item);
   if (!(prevNode.next == null)) {
-    // @prevNode.next(i.e. removedNode): Link is pointed to null implicitly.
-    //
-    // The link of the node before(i.e. @prevNode) the
-    // removed node(@prevNode.next) is redirected to point to the node the removed node is
-    // pointing to(@prevNode.next.next),
-    prevNode.next = prevNode.next.next; // Link Redirection.
+    // skip the node we want to remove, then link that nextNode to our previous Node.
+    prevNode.next = prevNode.next.next;
   }
 };
 
@@ -87,4 +75,8 @@ LinkedList.prototype.remove = function(item) {
 var cities = new LinkedList();
 
 cities.insert('Mumbai', 'head');
-cities.remove('Duban', 'Mumbai');
+cities.insert('Dubai', 'Mumbai');
+cities.display();
+console.log('---------------------');
+// cities.remove('Mumbai');
+// cities.display();
